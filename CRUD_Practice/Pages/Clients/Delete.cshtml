@@ -1,0 +1,30 @@
+﻿@page
+@using System.Data.SqlClient;
+
+@{
+    try
+    {
+        String id = Request.Query["id"];
+
+        String connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=myStore;Integrated Security=True";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+            // Here we create an SQL query that allows us to read the data from the client
+            String sql = "DELETE FROM clients WHERE id=@id";
+
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                // here we replace let's say "@name" with the clientInfon.name variable
+                command.Parameters.AddWithValue("@id", id);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+    }
+
+    Response.Redirect("/Clients/Index");
+}
