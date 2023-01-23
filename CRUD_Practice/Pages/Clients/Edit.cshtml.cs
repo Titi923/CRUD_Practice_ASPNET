@@ -79,6 +79,7 @@ namespace CRUD_Practice.Pages.Clients
                     String sql = "UPDATE clients " +
                                  "SET name=@name, email=@email, phone=@phone, address=@address " +
                                  "WHERE id=@id;";
+
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@id", clientInfo.id);
@@ -86,14 +87,18 @@ namespace CRUD_Practice.Pages.Clients
                         command.Parameters.AddWithValue("@email", clientInfo.email);
                         command.Parameters.AddWithValue("@phone", clientInfo.phone);
                         command.Parameters.AddWithValue("@address", clientInfo.address);
+
+                        command.ExecuteNonQuery();
                     }
-                }
+                }   
             }
             catch (Exception ex)
             {
                 errorMessage= ex.Message;
                 return;
             }
+
+            Response.Redirect("Clients/Index")
         }
     }
 }
