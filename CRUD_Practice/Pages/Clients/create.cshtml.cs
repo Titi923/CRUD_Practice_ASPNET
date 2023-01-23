@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace CRUD_Practice.Pages.Clients
 {
-    public class createModel : PageModel
+    public class CreateModel : PageModel
     {
         public ClientInfo clientInfo = new ClientInfo();
         public String errorMessage = "";

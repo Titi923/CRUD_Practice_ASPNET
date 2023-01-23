@@ -53,7 +53,47 @@ namespace CRUD_Practice.Pages.Clients
 
         public void OnPost()
         {
+            clientInfo.id = Request.Form["id"];
+            clientInfo.name = Request.Form["name"];
+            clientInfo.email = Request.Form["email"];
+            clientInfo.phone = Request.Form["phone"];
+            clientInfo.address = Request.Form["address"];
 
+            if (clientInfo.id.Length == 0 || clientInfo.name.Length == 0 ||
+                clientInfo.email.Length == 0 || clientInfo.phone.Length == 0 ||
+                clientInfo.address.Length == 0)
+            {
+                errorMessage = "All the fields are required";
+                return;
+            }
+
+            try
+            {
+                // Connection string from the database propreties
+                String connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=myStore;Integrated Security=True";
+                // Here we got the SQL connection
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    // Here we create an SQL query that allows us to read the data from the client
+                    String sql = "UPDATE clients " +
+                                 "SET name=@name, email=@email, phone=@phone, address=@address " +
+                                 "WHERE id=@id;";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", clientInfo.id);
+                        command.Parameters.AddWithValue("@name", clientInfo.name);
+                        command.Parameters.AddWithValue("@email", clientInfo.email);
+                        command.Parameters.AddWithValue("@phone", clientInfo.phone);
+                        command.Parameters.AddWithValue("@address", clientInfo.address);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage= ex.Message;
+                return;
+            }
         }
     }
 }
