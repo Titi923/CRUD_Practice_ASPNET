@@ -98,7 +98,7 @@ namespace CRUD_Practice.Pages.Clients
                 return;
             }
 
-            Response.Redirect("Clients/Index")
+            Response.Redirect("Clients/Index");
         }
     }
 }
